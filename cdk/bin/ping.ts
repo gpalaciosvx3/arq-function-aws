@@ -19,7 +19,7 @@ if (process.env.DEPLOY_OBSERVABILITY === 'true') {
     lambdaFunctions: [{ fn: pingStack.pingFn, name: 'ping' }],
     businessMetricNamespace: ResourceConstants.METRICS_NAMESPACE,
     businessMetricNames: ['pong_executed'],
-    environment: process.env.ENVIRONMENT ?? 'dev',
+    environment: 'prod',
     dashboardName: ResourceConstants.DASHBOARD_NAME,
     alarmEmail: process.env.ALARM_EMAIL,
     errorRatePercent: InfraConstants.LAMBDA_ALARM_ERROR_RATE_PERCENT,

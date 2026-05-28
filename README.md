@@ -219,5 +219,4 @@ AWS_DEFAULT_REGION
 ```
 DEPLOY_OBSERVABILITY   # Opcional — "true" para desplegar el ObservabilityStack (default: no se despliega)
 ALARM_EMAIL            # Opcional — email para suscripción SNS de alarmas
-ENVIRONMENT           # Opcional — nombre del entorno (default: "dev")
 ```
