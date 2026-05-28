@@ -37,6 +37,9 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.5.0"
   },
+  "overrides": {
+    "@middy/core": "^3.6.2"
+  },
   "lint-staged": {
     "{src,test,cdk}/**/*.ts": "prettier --write"
   }
