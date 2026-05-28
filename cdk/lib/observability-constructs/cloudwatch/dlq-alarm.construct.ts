@@ -8,6 +8,7 @@ import { Construct } from 'constructs';
 interface DlqAlarmProps {
   queue: sqs.Queue;
   alarmTopic: sns.Topic;
+  alarmName: string;
 }
 
 export class DlqAlarmConstruct extends Construct {
@@ -15,7 +16,7 @@ export class DlqAlarmConstruct extends Construct {
     super(scope, id);
 
     const alarm = new cloudwatch.Alarm(this, 'Alarm', {
-      alarmName: `${props.queue.queueName}-messages-visible`,
+      alarmName: props.alarmName,
       alarmDescription: `Mensajes visibles en DLQ ${props.queue.queueName} — revisión inmediata requerida`,
       metric: props.queue.metricApproximateNumberOfMessagesVisible({
         period: cdk.Duration.minutes(1),

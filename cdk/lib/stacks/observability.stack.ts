@@ -9,20 +9,32 @@ import { DlqAlarmConstruct } from '../observability-constructs/cloudwatch/dlq-al
 import { QueueAgeAlarmConstruct } from '../observability-constructs/cloudwatch/queue-age-alarm.construct';
 import {
   ObservabilityDashboardConstruct,
-  ObservableLambda,
+  ObservableLambda as ObservableLambdaBase,
 } from '../observability-constructs/cloudwatch/observability-dashboard.construct';
 
-export { ObservableLambda };
+export interface ObservableLambda extends ObservableLambdaBase {
+  alarmNames: {
+    errorRate: string;
+    p99Duration: string;
+    throttles: string;
+  };
+}
+
+export interface ObservableQueue {
+  queue: sqs.Queue;
+  alarmName: string;
+}
 
 interface ObservabilityStackProps extends cdk.StackProps {
   lambdaFunctions: ObservableLambda[];
-  processingQueues?: sqs.Queue[];
-  deadLetterQueues?: sqs.Queue[];
+  processingQueues?: ObservableQueue[];
+  deadLetterQueues?: ObservableQueue[];
   tables?: dynamodb.Table[];
   businessMetricNamespace: string;
   businessMetricNames?: string[];
   environment: string;
   dashboardName: string;
+  alarmTopicName: string;
   alarmEmail?: string;
   errorRatePercent?: number;
   p99DurationMs?: number;
@@ -36,39 +48,42 @@ export class ObservabilityStack extends cdk.Stack {
     super(scope, id, props);
 
     const { topic } = new AlarmTopicConstruct(this, 'AlarmTopic', {
-      topicName: `${props.dashboardName}-alarms`,
+      topicName: props.alarmTopicName,
       alarmEmail: props.alarmEmail,
     });
     this.alarmTopic = topic;
 
-    props.lambdaFunctions.forEach(({ fn, name }) => {
+    props.lambdaFunctions.forEach(({ fn, name, alarmNames }) => {
       new LambdaAlarmsConstruct(this, `${name}Alarms`, {
         fn,
         alarmTopic: this.alarmTopic,
         errorRatePercent: props.errorRatePercent ?? 5,
         p99DurationMs: props.p99DurationMs ?? 10_000,
+        alarmNames,
       });
     });
 
-    props.processingQueues?.forEach((queue, i) => {
+    props.processingQueues?.forEach(({ queue, alarmName }, i) => {
       new QueueAgeAlarmConstruct(this, `QueueAgeAlarm${i}`, {
         queue,
         alarmTopic: this.alarmTopic,
         maxAgeSeconds: props.queueAgeSeconds ?? 300,
+        alarmName,
       });
     });
 
-    props.deadLetterQueues?.forEach((queue, i) => {
+    props.deadLetterQueues?.forEach(({ queue, alarmName }, i) => {
       new DlqAlarmConstruct(this, `DlqAlarm${i}`, {
         queue,
         alarmTopic: this.alarmTopic,
+        alarmName,
       });
     });
 
     new ObservabilityDashboardConstruct(this, 'Dashboard', {
       dashboardName: props.dashboardName,
       lambdaFunctions: props.lambdaFunctions,
-      processingQueues: props.processingQueues ?? [],
+      processingQueues: props.processingQueues?.map(({ queue }) => queue) ?? [],
       tables: props.tables ?? [],
       businessMetricNamespace: props.businessMetricNamespace,
       businessMetricNames: props.businessMetricNames,

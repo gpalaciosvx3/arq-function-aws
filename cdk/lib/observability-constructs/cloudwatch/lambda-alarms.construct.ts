@@ -10,6 +10,11 @@ interface LambdaAlarmsProps {
   alarmTopic: sns.Topic;
   errorRatePercent: number;
   p99DurationMs: number;
+  alarmNames: {
+    errorRate: string;
+    p99Duration: string;
+    throttles: string;
+  };
 }
 
 export class LambdaAlarmsConstruct extends Construct {
@@ -19,7 +24,7 @@ export class LambdaAlarmsConstruct extends Construct {
     const action = new cloudwatch_actions.SnsAction(props.alarmTopic);
 
     const errorRate = new cloudwatch.Alarm(this, 'ErrorRate', {
-      alarmName: `${props.fn.functionName}-error-rate`,
+      alarmName: props.alarmNames.errorRate,
       alarmDescription: `Tasa de error > ${props.errorRatePercent}%`,
       metric: new cloudwatch.MathExpression({
         expression: 'IF(invocations > 0, errors / invocations * 100, 0)',
@@ -37,7 +42,7 @@ export class LambdaAlarmsConstruct extends Construct {
     errorRate.addAlarmAction(action);
 
     const p99 = new cloudwatch.Alarm(this, 'P99Duration', {
-      alarmName: `${props.fn.functionName}-p99-duration`,
+      alarmName: props.alarmNames.p99Duration,
       alarmDescription: `Duración P99 > ${props.p99DurationMs}ms`,
       metric: props.fn.metricDuration({ statistic: 'p99', period: cdk.Duration.minutes(5) }),
       threshold: props.p99DurationMs,
@@ -48,7 +53,7 @@ export class LambdaAlarmsConstruct extends Construct {
     p99.addAlarmAction(action);
 
     const throttles = new cloudwatch.Alarm(this, 'Throttles', {
-      alarmName: `${props.fn.functionName}-throttles`,
+      alarmName: props.alarmNames.throttles,
       alarmDescription: 'Throttling detectado',
       metric: props.fn.metricThrottles({ period: cdk.Duration.minutes(5) }),
       threshold: 0,

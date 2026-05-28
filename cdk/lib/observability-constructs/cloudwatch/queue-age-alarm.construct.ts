@@ -9,6 +9,7 @@ interface QueueAgeAlarmProps {
   queue: sqs.Queue;
   alarmTopic: sns.Topic;
   maxAgeSeconds: number;
+  alarmName: string;
 }
 
 export class QueueAgeAlarmConstruct extends Construct {
@@ -16,7 +17,7 @@ export class QueueAgeAlarmConstruct extends Construct {
     super(scope, id);
 
     const alarm = new cloudwatch.Alarm(this, 'Alarm', {
-      alarmName: `${props.queue.queueName}-oldest-message-age`,
+      alarmName: props.alarmName,
       alarmDescription: `Antigüedad del mensaje más viejo > ${props.maxAgeSeconds}s`,
       metric: props.queue.metricApproximateAgeOfOldestMessage({
         statistic: 'Maximum',

@@ -7,7 +7,5 @@ export class ResourceConstants {
 
   static readonly PING_ROLE = NamingConstants.ROL_001;
 
-  static readonly DASHBOARD_NAME = NamingConstants.CWD_001;
-
   static readonly METRICS_NAMESPACE = 'Arquetipo/Business';
 }

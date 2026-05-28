@@ -14,6 +14,7 @@ export class AlarmTopicConstruct extends Construct {
     super(scope, id);
 
     this.topic = new sns.Topic(this, 'Topic', {
+      topicName: props.topicName,
       displayName: props.topicName,
     });
 
