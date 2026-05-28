@@ -1,0 +1,59 @@
+name: DESTROY · AWS
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmacion:
+        description: 'Escribe DESTRUIR para confirmar'
+        required: true
+
+jobs:
+  destroy:
+    if: inputs.confirmacion == 'DESTRUIR'
+    name: Destruir stack en AWS
+    runs-on: ubuntu-latest
+    environment: deployer
+    steps:
+      - name: Obtener código fuente
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Restaurar caché de dependencias
+        id: cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            cdk/node_modules
+          key: deps-${{ hashFiles('package.json', 'cdk/package.json') }}
+
+      - name: Instalar dependencias
+        run: npm install && cd cdk && npm install
+
+      - name: Configurar credenciales AWS
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+
+      - name: Destruir stack en AWS
+        working-directory: cdk
+        env:
+          CDK_DEFAULT_ACCOUNT: ${{ secrets.CDK_DEFAULT_ACCOUNT }}
+          CDK_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          SES_SOURCE_EMAIL: ${{ secrets.SES_SOURCE_EMAIL }}
+        run: npx cdk destroy --all --force
+
+      - name: Guardar caché de dependencias
+        if: always() && steps.cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            node_modules
+            cdk/node_modules
+          key: deps-${{ hashFiles('package.json', 'cdk/package.json') }}
