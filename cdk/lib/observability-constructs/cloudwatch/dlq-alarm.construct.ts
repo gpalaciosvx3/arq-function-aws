@@ -7,7 +7,7 @@ import { Construct } from 'constructs';
 
 interface DlqAlarmProps {
   queue: sqs.Queue;
-  alarmTopic: sns.Topic;
+  alarmTopic?: sns.Topic;
   alarmName: string;
 }
 
@@ -26,6 +26,6 @@ export class DlqAlarmConstruct extends Construct {
       evaluationPeriods: 1,
       treatMissingData: cloudwatch.TreatMissingData.NOT_BREACHING,
     });
-    alarm.addAlarmAction(new cloudwatch_actions.SnsAction(props.alarmTopic));
+    if (props.alarmTopic) alarm.addAlarmAction(new cloudwatch_actions.SnsAction(props.alarmTopic));
   }
 }

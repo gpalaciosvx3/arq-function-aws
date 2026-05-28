@@ -11,12 +11,15 @@ import {
   ObservabilityDashboardConstruct,
   ObservableLambda as ObservableLambdaBase,
 } from '../observability-constructs/cloudwatch/observability-dashboard.construct';
+import { AlarmConfig } from '../observability-constructs/cloudwatch/lambda-alarms.construct';
+
+export { AlarmConfig };
 
 export interface ObservableLambda extends ObservableLambdaBase {
   alarmNames: {
-    errorRate: string;
-    p99Duration: string;
-    throttles: string;
+    errorRate: AlarmConfig;
+    p99Duration: AlarmConfig;
+    throttles: AlarmConfig;
   };
 }
 
@@ -33,8 +36,10 @@ interface ObservabilityStackProps extends cdk.StackProps {
   businessMetricNamespace: string;
   businessMetricNames?: string[];
   environment: string;
-  dashboardName: string;
-  alarmTopicName: string;
+  dashboardName?: string;
+  enableDashboard?: boolean;
+  alarmTopicName?: string;
+  enableTopic?: boolean;
   alarmEmail?: string;
   errorRatePercent?: number;
   p99DurationMs?: number;
@@ -42,16 +47,24 @@ interface ObservabilityStackProps extends cdk.StackProps {
 }
 
 export class ObservabilityStack extends cdk.Stack {
-  readonly alarmTopic: sns.Topic;
+  readonly alarmTopic: sns.Topic | undefined;
 
   constructor(scope: Construct, id: string, props: ObservabilityStackProps) {
     super(scope, id, props);
 
-    const { topic } = new AlarmTopicConstruct(this, 'AlarmTopic', {
-      topicName: props.alarmTopicName,
-      alarmEmail: props.alarmEmail,
-    });
-    this.alarmTopic = topic;
+    if (props.enableTopic !== false) {
+      const { topic } = new AlarmTopicConstruct(this, 'AlarmTopic', {
+        topicName: props.alarmTopicName!,
+        alarmEmail: props.alarmEmail,
+      });
+      this.alarmTopic = topic;
+
+      new cdk.CfnOutput(this, 'AlarmTopicArn', {
+        value: this.alarmTopic.topicArn,
+        description:
+          'ARN del Topic SNS para notificaciones de alarma — suscribir email/Slack desde la consola o CLI',
+      });
+    }
 
     props.lambdaFunctions.forEach(({ fn, name, alarmNames }) => {
       new LambdaAlarmsConstruct(this, `${name}Alarms`, {
@@ -80,19 +93,15 @@ export class ObservabilityStack extends cdk.Stack {
       });
     });
 
-    new ObservabilityDashboardConstruct(this, 'Dashboard', {
-      dashboardName: props.dashboardName,
-      lambdaFunctions: props.lambdaFunctions,
-      processingQueues: props.processingQueues?.map(({ queue }) => queue) ?? [],
-      tables: props.tables ?? [],
-      businessMetricNamespace: props.businessMetricNamespace,
-      businessMetricNames: props.businessMetricNames,
-    });
-
-    new cdk.CfnOutput(this, 'AlarmTopicArn', {
-      value: this.alarmTopic.topicArn,
-      description:
-        'ARN del Topic SNS para notificaciones de alarma — suscribir email/Slack desde la consola o CLI',
-    });
+    if (props.enableDashboard !== false) {
+      new ObservabilityDashboardConstruct(this, 'Dashboard', {
+        dashboardName: props.dashboardName!,
+        lambdaFunctions: props.lambdaFunctions,
+        processingQueues: props.processingQueues?.map(({ queue }) => queue) ?? [],
+        tables: props.tables ?? [],
+        businessMetricNamespace: props.businessMetricNamespace,
+        businessMetricNames: props.businessMetricNames,
+      });
+    }
   }
 }
