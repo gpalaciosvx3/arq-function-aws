@@ -1,0 +1,24 @@
+{
+  "name": "arq-serverless-cdk-infra",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "bootstrap:local": "cdklocal bootstrap",
+    "deploy:local": "cdklocal deploy --require-approval never",
+    "diff:local": "cdklocal diff",
+    "destroy:local": "cdklocal destroy --force"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.140.0",
+    "constructs": "^10.3.0",
+    "source-map-support": "^0.5.21"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.37",
+    "aws-cdk": "^2.140.0",
+    "esbuild": "^0.21.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.0"
+  }
+}
