@@ -1,24 +1,18 @@
-import { Injectable } from '@nestjs/common';
-import { Subsegment } from 'aws-xray-sdk-core';
 import { powertoolsTracer } from '../config/aws.config';
 
-@Injectable()
-export class AppTracer {
-  annotate(key: string, value: string): void {
+class AppTracer {
+  annotate(key: string, value: string | number | boolean): void {
     powertoolsTracer.putAnnotation(key, value);
   }
 
   async subsegment<T>(name: string, fn: () => Promise<T>): Promise<T> {
-    const segment = powertoolsTracer.getSegment();
-    const sub: Subsegment | undefined = segment?.addNewSubsegment(name);
+    const sub = powertoolsTracer.getSegment()?.addNewSubsegment(`## ${name}`);
     try {
-      const result = await fn();
+      return await fn();
+    } finally {
       sub?.close();
-      return result;
-    } catch (error) {
-      sub?.addError(error as Error);
-      sub?.close();
-      throw error;
     }
   }
 }
+
+export const appTracer = new AppTracer();

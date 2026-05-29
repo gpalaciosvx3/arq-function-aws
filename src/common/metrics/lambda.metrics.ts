@@ -1,11 +1,9 @@
-import { Injectable } from '@nestjs/common';
 import { MetricUnit } from '@aws-lambda-powertools/metrics';
 import { powertoolsMetrics } from '../config/aws.config';
 
-@Injectable()
-export class AppMetrics {
-  add(metricName: string, value = 1, unit: typeof MetricUnit[keyof typeof MetricUnit] = MetricUnit.Count): void {
-    powertoolsMetrics.addMetric(metricName, unit, value);
+class AppMetrics {
+  add(name: string, unit = MetricUnit.Count, value = 1): void {
+    powertoolsMetrics.addMetric(name, unit, value);
   }
 
   dimension(name: string, value: string): void {
@@ -16,3 +14,5 @@ export class AppMetrics {
     powertoolsMetrics.publishStoredMetrics();
   }
 }
+
+export const appMetrics = new AppMetrics();
