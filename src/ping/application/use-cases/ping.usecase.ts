@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ZodIssue } from 'zod';
+import { ErrorDictionary, ValidationException } from '@gpalacios/core';
+import { appLogger } from '@gpalacios/aws-lambda/observability';
 import { PingService } from '../../domain/service/ping.service';
 import { PingRequestSchema } from '../dtos/ping.request.dto';
 import { PingOutput } from '../../domain/types/ping-output.types';
-import { ValidationException } from '../../../common/errors/custom.exception';
-import { ErrorDictionary } from '../../../common/errors/error.dictionary';
-import { appLogger } from '../../../common/logger/lambda.logger';
 
 @Injectable()
 export class PingUseCase {

@@ -27,20 +27,23 @@ jobs:
         with:
           path: |
             node_modules
-            cdk/node_modules
-          key: deps-${{ hashFiles('package.json', 'cdk/package.json') }}
+            infra/node_modules
+          key: deps-${{ hashFiles('package.json', 'infra/package.json') }}
 
       - name: Instalar dependencias
-        run: npm install && cd cdk && npm install
+        run: npm install && cd infra && npm install
 
       - name: Verificación de tipos
         run: npm run build
+
+      - name: Fronteras de arquitectura
+        run: npm run arch:check
 
       - name: Pruebas unitarias
         run: npm test
 
       - name: Validar plantilla CDK
-        working-directory: cdk
+        working-directory: infra
         env:
           CDK_DEFAULT_ACCOUNT: ${{ secrets.CDK_DEFAULT_ACCOUNT }}
           CDK_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
@@ -53,8 +56,8 @@ jobs:
         with:
           path: |
             node_modules
-            cdk/node_modules
-          key: deps-${{ hashFiles('package.json', 'cdk/package.json') }}
+            infra/node_modules
+          key: deps-${{ hashFiles('package.json', 'infra/package.json') }}
 
   deploy:
     if: github.event_name == 'push'
@@ -76,11 +79,11 @@ jobs:
         with:
           path: |
             node_modules
-            cdk/node_modules
-          key: deps-${{ hashFiles('package.json', 'cdk/package.json') }}
+            infra/node_modules
+          key: deps-${{ hashFiles('package.json', 'infra/package.json') }}
 
       - name: Instalar dependencias
-        run: npm install && cd cdk && npm install
+        run: npm install && cd infra && npm install
 
       - name: Configurar credenciales AWS
         uses: aws-actions/configure-aws-credentials@v4
@@ -90,14 +93,14 @@ jobs:
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
 
       - name: Bootstrap del entorno CDK
-        working-directory: cdk
+        working-directory: infra
         env:
           CDK_DEFAULT_ACCOUNT: ${{ secrets.CDK_DEFAULT_ACCOUNT }}
           CDK_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
         run: npx cdk bootstrap aws://${{ secrets.CDK_DEFAULT_ACCOUNT }}/${{ secrets.AWS_DEFAULT_REGION }}
 
       - name: Desplegar stack en AWS
-        working-directory: cdk
+        working-directory: infra
         env:
           CDK_DEFAULT_ACCOUNT: ${{ secrets.CDK_DEFAULT_ACCOUNT }}
           CDK_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
@@ -110,5 +113,5 @@ jobs:
         with:
           path: |
             node_modules
-            cdk/node_modules
-          key: deps-${{ hashFiles('package.json', 'cdk/package.json') }}
+            infra/node_modules
+          key: deps-${{ hashFiles('package.json', 'infra/package.json') }}

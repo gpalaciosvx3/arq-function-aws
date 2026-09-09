@@ -21,9 +21,9 @@ if (process.env.DEPLOY_OBSERVABILITY === 'true') {
         fn: pingStack.pingFn,
         name: 'ping',
         alarmNames: {
-          errorRate:  { name: ObservabilityResourceConstants.PING_ERROR_RATE_ALARM, enabled: true },
-          p99Duration:{ name: ObservabilityResourceConstants.PING_P99_ALARM,        enabled: false },
-          throttles:  { name: ObservabilityResourceConstants.PING_THROTTLES_ALARM,  enabled: false },
+          errorRate: { name: ObservabilityResourceConstants.PING_ERROR_RATE_ALARM, enabled: true },
+          p99Duration: { name: ObservabilityResourceConstants.PING_P99_ALARM, enabled: false },
+          throttles: { name: ObservabilityResourceConstants.PING_THROTTLES_ALARM, enabled: false },
         },
       },
     ],

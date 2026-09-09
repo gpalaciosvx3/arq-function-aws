@@ -1,12 +1,12 @@
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { APIGatewayProxyResult } from 'aws-lambda';
-import { ApiGwHandlerEvent } from '../../../common/middleware/types/lambda-event.types';
+import { HandleExecution } from '@gpalacios/core';
+import { ApiGwHelper } from '@gpalacios/aws-lambda/http';
+import type { ApiGwController, ApiGwHandlerEvent } from '@gpalacios/aws-lambda/bootstrap/api-gw';
 import { PingUseCase } from '../../application/use-cases/ping.usecase';
-import { ApiGwHelper } from '../../../common/helpers/api-gw.helper';
-import { HandleExecution } from '../../../common/decorator/handle-execution.decorator';
 
 @Injectable()
-export class PingController {
+export class PingController implements ApiGwController {
   constructor(private readonly useCase: PingUseCase) {}
 
   @HandleExecution('Ping', ApiGwHelper.error)

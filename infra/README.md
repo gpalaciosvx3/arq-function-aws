@@ -18,7 +18,7 @@ Infraestructura AWS del arquetipo serverless CDK (TypeScript).
 ## Estructura
 
 ```
-cdk/
+infra/
   bin/
     ping.ts                               # Entry point — instancia AppStack + ObservabilityStack
   lib/
@@ -69,7 +69,7 @@ cdk/
 ## Instalación
 
 ```bash
-cd cdk && npm install
+cd infra && npm install
 
 # Instalar CLI global (una sola vez)
 npm install -g aws-cdk

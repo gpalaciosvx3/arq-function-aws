@@ -1,0 +1,9 @@
+import type { InputError } from '@gpalacios/core';
+
+export class AppErrorDictionary {
+  static readonly PING_NOT_AVAILABLE: InputError = {
+    code: 'ARQ-001',
+    descripcion: 'El servicio de ping no está disponible',
+    statusCode: 503,
+  };
+}

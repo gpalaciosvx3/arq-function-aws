@@ -1,17 +1,10 @@
 import { defineFeature, loadFeature } from 'jest-cucumber';
-import { AppLogger } from '../../src/common/logger/lambda.logger';
-import { AppTracer } from '../../src/common/tracer/lambda.tracer';
-import { AppMetrics } from '../../src/common/metrics/lambda.metrics';
+import { ValidationException } from '@gpalacios/core';
 import { PingService } from '../../src/ping/domain/service/ping.service';
 import { PingUseCase } from '../../src/ping/application/use-cases/ping.usecase';
 import { PingOutput } from '../../src/ping/domain/types/ping-output.types';
-import { ValidationException } from '../../src/common/errors/custom.exception';
 
 const feature = loadFeature('./test/ping/features/ping.feature');
-
-const mockLogger  = { step: jest.fn(), info: jest.fn(), start: jest.fn(), end: jest.fn(), warn: jest.fn(), error: jest.fn() } as unknown as AppLogger;
-const mockTracer  = { annotate: jest.fn(), subsegment: jest.fn() } as unknown as AppTracer;
-const mockMetrics = { add: jest.fn(), dimension: jest.fn(), flush: jest.fn() } as unknown as AppMetrics;
 
 defineFeature(feature, (test) => {
   let useCase: PingUseCase;
@@ -20,7 +13,7 @@ defineFeature(feature, (test) => {
   let caughtError: unknown;
 
   beforeEach(() => {
-    useCase = new PingUseCase(new PingService(mockLogger, mockTracer, mockMetrics));
+    useCase = new PingUseCase(new PingService());
     caughtError = undefined;
   });
 

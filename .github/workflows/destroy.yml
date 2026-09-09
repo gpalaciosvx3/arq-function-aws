@@ -28,11 +28,11 @@ jobs:
         with:
           path: |
             node_modules
-            cdk/node_modules
-          key: deps-${{ hashFiles('package.json', 'cdk/package.json') }}
+            infra/node_modules
+          key: deps-${{ hashFiles('package.json', 'infra/package.json') }}
 
       - name: Instalar dependencias
-        run: npm install && cd cdk && npm install
+        run: npm install && cd infra && npm install
 
       - name: Configurar credenciales AWS
         uses: aws-actions/configure-aws-credentials@v4
@@ -42,7 +42,7 @@ jobs:
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
 
       - name: Destruir stack en AWS
-        working-directory: cdk
+        working-directory: infra
         env:
           CDK_DEFAULT_ACCOUNT: ${{ secrets.CDK_DEFAULT_ACCOUNT }}
           CDK_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
@@ -55,5 +55,5 @@ jobs:
         with:
           path: |
             node_modules
-            cdk/node_modules
-          key: deps-${{ hashFiles('package.json', 'cdk/package.json') }}
+            infra/node_modules
+          key: deps-${{ hashFiles('package.json', 'infra/package.json') }}
