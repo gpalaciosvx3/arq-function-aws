@@ -221,7 +221,10 @@ npm install
 cd infra && npm install && cd ..
 
 # Type-check
-npm run build
+npm run typecheck
+
+# Linter
+npm run lint
 
 # Fronteras de arquitectura
 npm run arch:check

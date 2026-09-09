@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { BundlingOptions } from 'aws-cdk-lib/aws-lambda-nodejs';
+import type { BundlingOptions } from 'aws-cdk-lib/aws-lambda-nodejs';
 
 export const repoRoot = path.join(__dirname, '../../../../../');
 

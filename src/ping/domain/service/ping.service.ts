@@ -1,8 +1,8 @@
-import { Injectable } from '@nestjs/common';
 import { appLogger, appTracer, appMetrics } from '@gpalacios/aws-lambda/observability';
+import { Injectable } from '@nestjs/common';
 import { PingConstants } from '../constants/ping.constants';
-import { PingInput } from '../types/ping-input.types';
-import { PingOutput } from '../types/ping-output.types';
+import type { PingInput } from '../types/ping-input.types';
+import type { PingOutput } from '../types/ping-output.types';
 
 @Injectable()
 export class PingService {

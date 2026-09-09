@@ -1,9 +1,9 @@
 import * as cdk from 'aws-cdk-lib';
 import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 import * as cloudwatch_actions from 'aws-cdk-lib/aws-cloudwatch-actions';
-import * as sns from 'aws-cdk-lib/aws-sns';
-import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { Construct } from 'constructs';
+import type * as sns from 'aws-cdk-lib/aws-sns';
+import type * as sqs from 'aws-cdk-lib/aws-sqs';
 
 interface QueueAgeAlarmProps {
   queue: sqs.Queue;

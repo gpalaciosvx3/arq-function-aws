@@ -1,8 +1,8 @@
-import { defineFeature, loadFeature } from 'jest-cucumber';
 import { ValidationException } from '@gpalacios/core';
-import { PingService } from '../../src/ping/domain/service/ping.service';
+import { defineFeature, loadFeature } from 'jest-cucumber';
 import { PingUseCase } from '../../src/ping/application/use-cases/ping.usecase';
-import { PingOutput } from '../../src/ping/domain/types/ping-output.types';
+import { PingService } from '../../src/ping/domain/service/ping.service';
+import type { PingOutput } from '../../src/ping/domain/types/ping-output.types';
 
 const feature = loadFeature('./test/ping/features/ping.feature');
 

@@ -146,7 +146,5 @@ cdk.out/
 volume/
 
 # Docs
-openspec/
-.github/prompts/
-.github/skills/
 brief/
+local-docs/

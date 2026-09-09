@@ -1,17 +1,15 @@
 import * as cdk from 'aws-cdk-lib';
-import * as sns from 'aws-cdk-lib/aws-sns';
-import * as sqs from 'aws-cdk-lib/aws-sqs';
-import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
-import { Construct } from 'constructs';
-import { AlarmTopicConstruct } from '../observability-constructs/sns/alarm-topic.construct';
-import { LambdaAlarmsConstruct } from '../observability-constructs/cloudwatch/lambda-alarms.construct';
 import { DlqAlarmConstruct } from '../observability-constructs/cloudwatch/dlq-alarm.construct';
-import { QueueAgeAlarmConstruct } from '../observability-constructs/cloudwatch/queue-age-alarm.construct';
-import {
-  ObservabilityDashboardConstruct,
-  ObservableLambda as ObservableLambdaBase,
-} from '../observability-constructs/cloudwatch/observability-dashboard.construct';
+import { LambdaAlarmsConstruct } from '../observability-constructs/cloudwatch/lambda-alarms.construct';
 import { AlarmConfig } from '../observability-constructs/cloudwatch/lambda-alarms.construct';
+import { ObservabilityDashboardConstruct } from '../observability-constructs/cloudwatch/observability-dashboard.construct';
+import { QueueAgeAlarmConstruct } from '../observability-constructs/cloudwatch/queue-age-alarm.construct';
+import { AlarmTopicConstruct } from '../observability-constructs/sns/alarm-topic.construct';
+import type { ObservableLambda as ObservableLambdaBase } from '../observability-constructs/cloudwatch/observability-dashboard.construct';
+import type * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import type * as sns from 'aws-cdk-lib/aws-sns';
+import type * as sqs from 'aws-cdk-lib/aws-sqs';
+import type { Construct } from 'constructs';
 
 export { AlarmConfig };
 

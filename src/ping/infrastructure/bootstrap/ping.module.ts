@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { PingService } from '../../domain/service/ping.service';
 import { PingUseCase } from '../../application/use-cases/ping.usecase';
+import { PingService } from '../../domain/service/ping.service';
 import { PingController } from '../controller/ping.controller';
 
 @Module({

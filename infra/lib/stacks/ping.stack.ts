@@ -1,9 +1,9 @@
 import * as cdk from 'aws-cdk-lib';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import { Construct } from 'constructs';
 import { StackTags } from '../../common/tags/stack.tags';
-import { PingFnConstruct } from '../ping-constructs/lambda/ping/ping-fn.construct';
 import { HttpApiConstruct } from '../ping-constructs/api-gateway/http-api.construct';
+import { PingFnConstruct } from '../ping-constructs/lambda/ping/ping-fn.construct';
+import type { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import type { Construct } from 'constructs';
 
 export class PingStack extends cdk.Stack {
   readonly pingFn: NodejsFunction;

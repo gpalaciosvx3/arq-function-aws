@@ -1,9 +1,9 @@
 import * as cdk from 'aws-cdk-lib';
 import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 import * as cloudwatch_actions from 'aws-cdk-lib/aws-cloudwatch-actions';
-import * as sns from 'aws-cdk-lib/aws-sns';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
+import type { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import type * as sns from 'aws-cdk-lib/aws-sns';
 
 export interface AlarmConfig {
   name: string;

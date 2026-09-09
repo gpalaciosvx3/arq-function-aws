@@ -1,10 +1,12 @@
-name: Deploy · AWS
+name: Deploy manual · AWS
 
 on:
-  pull_request:
-    branches: [master]
-  push:
-    branches: [master]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Rama, tag o SHA a desplegar'
+        required: true
+        default: master
 
 permissions:
   contents: read
@@ -15,13 +17,9 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  validate:
-    if: github.event_name == 'pull_request'
-    uses: gpalaciosvx3/gpalacios-pipelines/.github/workflows/node-validate.yml@v1
-
   deploy:
-    if: github.event_name == 'push'
     uses: gpalaciosvx3/gpalacios-pipelines/.github/workflows/aws-cdk-deploy.yml@v1
     with:
+      ref: ${{ inputs.ref }}
       extra-env: |
         DEPLOY_OBSERVABILITY=${{ vars.DEPLOY_OBSERVABILITY }}

@@ -1,9 +1,9 @@
 import * as cdk from 'aws-cdk-lib';
 import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
-import * as sqs from 'aws-cdk-lib/aws-sqs';
-import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
-import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
+import type * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
+import type { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import type * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export interface ObservableLambda {
   fn: NodejsFunction;

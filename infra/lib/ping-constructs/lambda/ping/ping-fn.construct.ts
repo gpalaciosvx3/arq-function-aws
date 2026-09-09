@@ -1,13 +1,13 @@
+import * as path from 'path';
 import * as cdk from 'aws-cdk-lib';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
 import { Construct } from 'constructs';
-import * as path from 'path';
-import { lambdaBundling, repoRoot } from '../shared/bundling.config';
 import { InfraConstants } from '../../../../common/constants/infra.constants';
 import { ResourceConstants } from '../../../../common/constants/resource.constants';
-import { PingRoleConstruct } from '../../iam/ping-role.construct';
 import { LambdaLogGroupConstruct } from '../../cloudwatch/lambda-log-group.construct';
+import { PingRoleConstruct } from '../../iam/ping-role.construct';
+import { lambdaBundling, repoRoot } from '../shared/bundling.config';
 
 export class PingFnConstruct extends Construct {
   readonly fn: NodejsFunction;

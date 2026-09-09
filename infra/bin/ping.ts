@@ -1,14 +1,14 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { PingStack } from '../lib/stacks/ping.stack';
-import { ObservabilityStack } from '../lib/stacks/observability.stack';
-import { ResourceConstants } from '../common/constants/resource.constants';
 import { ObservabilityResourceConstants } from '../common/constants/observability-resource.constants';
+import { ResourceConstants } from '../common/constants/resource.constants';
+import { ObservabilityStack } from '../lib/stacks/observability.stack';
+import { PingStack } from '../lib/stacks/ping.stack';
 
 const app = new cdk.App();
 
 const env = {
-  account: process.env.CDK_DEFAULT_ACCOUNT || '000000000000',
+  account: process.env.CDK_DEFAULT_ACCOUNT,
   region: process.env.CDK_DEFAULT_REGION ?? 'us-east-1',
 };
 

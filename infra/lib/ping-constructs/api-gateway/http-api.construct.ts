@@ -1,7 +1,7 @@
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
-import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs';
 import { ResourceConstants } from '../../../common/constants/resource.constants';
+import type * as lambda from 'aws-cdk-lib/aws-lambda';
 
 interface HttpApiProps {
   pingFn: lambda.IFunction;
