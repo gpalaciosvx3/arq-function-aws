@@ -13,6 +13,6 @@ permissions:
 
 jobs:
   destroy:
-    uses: gpalaciosvx3/gpalacios-pipelines/.github/workflows/aws-cdk-destroy.yml@v1
+    uses: gpalaciosvx3/pt-ci-pipelines/.github/workflows/aws-cdk-destroy.yml@v1
     with:
       confirmation: ${{ inputs.confirmation }}

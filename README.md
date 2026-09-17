@@ -1,4 +1,4 @@
-# arq-serverless-cdk
+# aq-api-serverless
 
 Arquetipo serverless NestJS + AWS CDK (TypeScript). Punto de partida para proyectos Lambda con Clean Architecture, observabilidad integrada y pruebas BDD. Incluye una feature de referencia `ping/pong` completamente implementada.
 
@@ -41,7 +41,7 @@ npm i @gpalacios/aws @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb   # solo el 
 ## Estructura del proyecto
 
 ```
-arq-serverless-cdk/
+aq-api-serverless/
   src/
     common/                        # Solo lo específico de este proyecto
       constants/env.constants.ts   # Variables de entorno obligatorias por función

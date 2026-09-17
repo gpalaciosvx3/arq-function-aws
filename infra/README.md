@@ -1,4 +1,4 @@
-# arq-serverless-cdk — CDK
+# aq-api-serverless — CDK
 
 Infraestructura AWS del arquetipo serverless CDK (TypeScript).
 

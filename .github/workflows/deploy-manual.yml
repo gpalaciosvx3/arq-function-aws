@@ -18,7 +18,7 @@ concurrency:
 
 jobs:
   deploy:
-    uses: gpalaciosvx3/gpalacios-pipelines/.github/workflows/aws-cdk-deploy.yml@v1
+    uses: gpalaciosvx3/pt-ci-pipelines/.github/workflows/aws-cdk-deploy.yml@v1
     with:
       ref: ${{ inputs.ref }}
       extra-env: |

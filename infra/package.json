@@ -1,5 +1,5 @@
 {
-  "name": "arq-serverless-cdk-infra",
+  "name": "aq-api-serverless-infra",
   "version": "0.1.0",
   "private": true,
   "scripts": {
