@@ -1,5 +1,5 @@
-import { appLogger } from '@gpalacios/aws-lambda/observability';
-import { ErrorDictionary, ValidationException } from '@gpalacios/core';
+import { appLogger } from '@gpkit/aws-lambda/observability';
+import { ErrorDictionary, ValidationException } from '@gpkit/core';
 import { Injectable } from '@nestjs/common';
 import { PingService } from '../../domain/service/ping.service';
 import { PingRequestSchema } from '../dtos/ping.request.dto';

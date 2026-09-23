@@ -1,4 +1,4 @@
-import { appLogger, appTracer, appMetrics } from '@gpalacios/aws-lambda/observability';
+import { appLogger, appTracer, appMetrics } from '@gpkit/aws-lambda/observability';
 import { Injectable } from '@nestjs/common';
 import { PingConstants } from '../constants/ping.constants';
 import type { PingInput } from '../types/ping-input.types';

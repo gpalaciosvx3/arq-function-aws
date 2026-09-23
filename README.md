@@ -1,8 +1,8 @@
-# aq-api-serverless
+# arq-api-serverless
 
 Arquetipo serverless NestJS + AWS CDK (TypeScript). Punto de partida para proyectos Lambda con Clean Architecture, observabilidad integrada y pruebas BDD. Incluye una feature de referencia `ping/pong` completamente implementada.
 
-Todo lo transversal —errores, logging, respuestas HTTP, arranque del handler, clientes de AWS— vive en las librerías [`@gpalacios/*`](https://www.npmjs.com/package/@gpalacios/core), no en este repositorio. Aquí solo queda el negocio y el cableado.
+Todo lo transversal —errores, logging, respuestas HTTP, arranque del handler, clientes de AWS— vive en las librerías [`@gpkit/*`](https://www.npmjs.com/package/@gpkit/core), no en este repositorio. Aquí solo queda el negocio y el cableado.
 
 ---
 
@@ -24,14 +24,14 @@ Todo lo transversal —errores, logging, respuestas HTTP, arranque del handler, 
 
 | Paquete | Qué aporta a este proyecto |
 |---|---|
-| `@gpalacios/core` | `CustomException`, `ValidationException`, `ErrorDictionary`, contrato `Logger`, `@HandleExecution`, tipos `ApiSuccessBody`/`ApiErrorBody`, procesamiento por lotes |
-| `@gpalacios/aws-lambda` | `ApiGwHandlerFactory` y las otras 7 factories por trigger, middleware de parseo, `ApiGwHelper`, observabilidad Powertools (`appLogger`, `appTracer`, `appMetrics`) |
-| `@gpalacios/arch-rules` | Perfil de dependency-cruiser que verifica las fronteras entre capas |
+| `@gpkit/core` | `CustomException`, `ValidationException`, `ErrorDictionary`, contrato `Logger`, `@HandleExecution`, tipos `ApiSuccessBody`/`ApiErrorBody`, procesamiento por lotes |
+| `@gpkit/aws-lambda` | `ApiGwHandlerFactory` y las otras 7 factories por trigger, middleware de parseo, `ApiGwHelper`, observabilidad Powertools (`appLogger`, `appTracer`, `appMetrics`) |
+| `@gpkit/arch-rules` | Perfil de dependency-cruiser que verifica las fronteras entre capas |
 
-`@gpalacios/aws` (clientes de DynamoDB, S3, SQS, SNS, SES, Step Functions, SSM) **no está instalado**: la feature `ping` no toca ningún servicio. Al añadir el primero:
+`@gpkit/aws` (clientes de DynamoDB, S3, SQS, SNS, SES, Step Functions, SSM) **no está instalado**: la feature `ping` no toca ningún servicio. Al añadir el primero:
 
 ```bash
-npm i @gpalacios/aws @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb   # solo el peer que uses
+npm i @gpkit/aws @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb   # solo el peer que uses
 ```
 
 **Regla dura:** si algo de una librería resuelve lo que necesitas, se usa — no se escribe una versión local ni un wrapper que la envuelva. Si la librería no cubre un caso real, se reporta a `gpalacios-platform` en vez de taparlo aquí.
@@ -41,7 +41,7 @@ npm i @gpalacios/aws @aws-sdk/client-dynamodb @aws-sdk/lib-dynamodb   # solo el 
 ## Estructura del proyecto
 
 ```
-aq-api-serverless/
+arq-api-serverless/
   src/
     common/                        # Solo lo específico de este proyecto
       constants/env.constants.ts   # Variables de entorno obligatorias por función
@@ -75,12 +75,12 @@ aq-api-serverless/
 |---|---|
 | Runtime | Node.js 20, TypeScript 5.5 strict |
 | Framework | NestJS 10 (sin HTTP server — context-based) |
-| Plataforma | `@gpalacios/core` + `@gpalacios/aws-lambda` |
-| Lambda middleware | Middy 3.x (vía `@gpalacios/aws-lambda`) |
+| Plataforma | `@gpkit/core` + `@gpkit/aws-lambda` |
+| Lambda middleware | Middy 3.x (vía `@gpkit/aws-lambda`) |
 | Observabilidad | AWS Lambda Powertools v2 (Logger, Tracer, Metrics) |
 | Validación | Zod 3.x |
 | Tests | jest-cucumber 4.x (BDD: `.feature` + `.steps.ts`) |
-| Arquitectura | dependency-cruiser + `@gpalacios/arch-rules` |
+| Arquitectura | dependency-cruiser + `@gpkit/arch-rules` |
 | Infra | AWS CDK v2 |
 | Calidad | Prettier 3.x + Husky 9.x (pre-push hook) |
 
@@ -119,7 +119,7 @@ Content-Type: application/json
 
 ### Códigos de error
 
-Los transversales los aporta `ErrorDictionary` de `@gpalacios/core` — no se redefinen aquí:
+Los transversales los aporta `ErrorDictionary` de `@gpkit/core` — no se redefinen aquí:
 
 | Código | HTTP | Descripción |
 |---|---|---|
@@ -132,7 +132,7 @@ Los errores **de negocio** de cada proyecto van en `src/common/errors/app.error-
 
 ### Cómo se inyecta el logger
 
-El dominio depende del contrato `Logger` de `@gpalacios/core`, no de Powertools. Quién lo implementa lo decide el módulo:
+El dominio depende del contrato `Logger` de `@gpkit/core`, no de Powertools. Quién lo implementa lo decide el módulo:
 
 ```ts
 // ping.module.ts — el appLogger de la librería escribe por Powertools
@@ -152,7 +152,7 @@ En los tests se inyecta un mock del contrato; no hace falta simular Powertools.
 
 | Capa | Qué registra |
 |---|---|
-| **Logger** | Structured JSON logs con correlación. Formato `--- feature start/end ---` y `[PASO N]` fijado en `@gpalacios/core` |
+| **Logger** | Structured JSON logs con correlación. Formato `--- feature start/end ---` y `[PASO N]` fijado en `@gpkit/core` |
 | **Tracer** | X-Ray subsegmentos por operación I/O + anotaciones de negocio (`appTracer`) |
 | **Metrics** | Métricas custom en namespace `Arquetipo/Business` (`appMetrics`) |
 
@@ -172,7 +172,7 @@ El `ObservabilityStack` (opcional, activo con `DEPLOY_OBSERVABILITY=true`) despl
 npm run arch:check
 ```
 
-Aplica el perfil `@gpalacios/arch-rules/serverless-nest` sobre `src/` e `infra/`:
+Aplica el perfil `@gpkit/arch-rules/serverless-nest` sobre `src/` e `infra/`:
 
 - ninguna feature importa los internos de otra
 - `domain/` no conoce `application/` ni `infrastructure/`

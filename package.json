@@ -1,7 +1,7 @@
 {
-  "name": "aq-api-serverless",
+  "name": "arq-api-serverless",
   "version": "1.0.0",
-  "description": "Arquetipo serverless — NestJS + Lambda + API Gateway + CDK sobre @gpalacios/*",
+  "description": "Arquetipo serverless — NestJS + Lambda + API Gateway + CDK sobre @gpkit/*",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
@@ -12,14 +12,14 @@
   },
   "dependencies": {
     "@aws-sdk/util-dynamodb": "^3.996.7",
-    "@gpalacios/aws-lambda": "^2.0.0",
-    "@gpalacios/core": "^2.0.0",
+    "@gpkit/aws-lambda": "^1.0.0",
+    "@gpkit/core": "^1.0.0",
     "@nestjs/common": "^10.4.0",
     "reflect-metadata": "^0.2.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@gpalacios/arch-rules": "^1.0.0",
+    "@gpkit/arch-rules": "^1.0.0",
     "@types/aws-lambda": "^8.10.140",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.19.37",

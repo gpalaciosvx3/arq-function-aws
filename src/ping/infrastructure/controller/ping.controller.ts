@@ -1,8 +1,8 @@
-import { ApiGwHelper } from '@gpalacios/aws-lambda/http';
-import { HandleExecution } from '@gpalacios/core';
+import { ApiGwHelper } from '@gpkit/aws-lambda/http';
+import { HandleExecution } from '@gpkit/core';
 import { Injectable, HttpStatus } from '@nestjs/common';
 import { PingUseCase } from '../../application/use-cases/ping.usecase';
-import type { ApiGwController, ApiGwHandlerEvent } from '@gpalacios/aws-lambda/bootstrap/api-gw';
+import type { ApiGwController, ApiGwHandlerEvent } from '@gpkit/aws-lambda/bootstrap/api-gw';
 import type { APIGatewayProxyResult } from 'aws-lambda';
 
 @Injectable()

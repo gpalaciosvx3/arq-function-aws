@@ -1,4 +1,4 @@
-import archInfra from '@gpalacios/arch-rules/eslint-infra';
+import archInfra from '@gpkit/arch-rules/eslint-infra';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import importX from 'eslint-plugin-import-x';
 import tseslint from 'typescript-eslint';

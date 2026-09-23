@@ -1,4 +1,4 @@
-import { ValidationException } from '@gpalacios/core';
+import { ValidationException } from '@gpkit/core';
 import { defineFeature, loadFeature } from 'jest-cucumber';
 import { PingUseCase } from '../../src/ping/application/use-cases/ping.usecase';
 import { PingService } from '../../src/ping/domain/service/ping.service';
