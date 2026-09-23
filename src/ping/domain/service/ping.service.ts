@@ -1,19 +1,13 @@
-import { appLogger, appTracer, appMetrics } from '@gpkit/aws-lambda/observability';
+import { getLogger } from '@gpkit/core';
 import { Injectable } from '@nestjs/common';
-import { PingConstants } from '../constants/ping.constants';
+import { PingMapper } from '../mapper/ping.mapper';
 import type { PingInput } from '../types/ping-input.types';
 import type { PingOutput } from '../types/ping-output.types';
 
 @Injectable()
 export class PingService {
   pong(input: PingInput): PingOutput {
-    appTracer.annotate('feature', 'ping');
-    appLogger.step(1, 'Generando respuesta pong', { echo: input.message });
-    appMetrics.add('pong_executed');
-    return {
-      message: PingConstants.PONG_MESSAGE,
-      echo: input.message,
-      receivedAt: new Date().toISOString(),
-    };
+    getLogger().step(1, 'Generando respuesta pong', { echo: input.message });
+    return PingMapper.toOutput(input, new Date());
   }
 }

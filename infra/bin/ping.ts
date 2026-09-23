@@ -1,5 +1,6 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
+import { InfraConstants } from '../common/constants/infra.constants';
 import { ObservabilityResourceConstants } from '../common/constants/observability-resource.constants';
 import { ResourceConstants } from '../common/constants/resource.constants';
 import { ObservabilityStack } from '../lib/stacks/observability.stack';
@@ -16,6 +17,7 @@ const pingStack = new PingStack(app, 'PingStack', { env });
 
 if (process.env.DEPLOY_OBSERVABILITY === 'true') {
   new ObservabilityStack(app, 'ObservabilityStack', {
+    env,
     lambdaFunctions: [
       {
         fn: pingStack.pingFn,
@@ -28,7 +30,10 @@ if (process.env.DEPLOY_OBSERVABILITY === 'true') {
       },
     ],
     businessMetricNamespace: ResourceConstants.METRICS_NAMESPACE,
-    environment: 'prod',
+    environment: InfraConstants.OBSERVABILITY_ENVIRONMENT,
+    dashboardName: ObservabilityResourceConstants.DASHBOARD_NAME,
+    alarmTopicName: ObservabilityResourceConstants.ALARM_TOPIC,
+    alarmEmail: process.env.ALARM_EMAIL,
     enableTopic: false,
     enableDashboard: false,
   });

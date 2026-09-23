@@ -25,3 +25,4 @@ jobs:
     with:
       extra-env: |
         DEPLOY_OBSERVABILITY=${{ vars.DEPLOY_OBSERVABILITY }}
+        ALARM_EMAIL=${{ vars.ALARM_EMAIL }}

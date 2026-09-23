@@ -3,8 +3,8 @@ import type { Construct } from 'constructs';
 
 export class StackTags {
   static apply(scope: Construct): void {
-    cdk.Tags.of(scope).add('Project', 'arq-api-serverless');
+    cdk.Tags.of(scope).add('Project', 'arq-function-aws');
     cdk.Tags.of(scope).add('ManagedBy', 'aws-cdk');
-    cdk.Tags.of(scope).add('Repository', 'https://github.com/gpalaciosvx3/arq-api-serverless');
+    cdk.Tags.of(scope).add('Repository', 'https://github.com/gpalaciosvx3/arq-function-aws');
   }
 }

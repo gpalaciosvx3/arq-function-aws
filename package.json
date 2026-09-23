@@ -1,7 +1,7 @@
 {
-  "name": "arq-api-serverless",
+  "name": "arq-function-aws",
   "version": "1.0.0",
-  "description": "Arquetipo serverless — NestJS + Lambda + API Gateway + CDK sobre @gpkit/*",
+  "description": "Arquetipo de función Lambda — NestJS + CDK sobre @gpkit/*. Solo código y su cableado; la infraestructura compartida vive en IaC",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
@@ -34,7 +34,7 @@
     "jest-cucumber": "^4.4.0",
     "lint-staged": "^16.4.0",
     "prettier": "^3.8.3",
-    "ts-jest": "^29.2.0",
+    "ts-jest": "29.4.12",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.0",
     "typescript-eslint": "^8.70.0"

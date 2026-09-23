@@ -1,5 +1,5 @@
 {
-  "name": "arq-api-serverless-infra",
+  "name": "arq-function-aws-infra",
   "version": "0.1.0",
   "private": true,
   "scripts": {

@@ -4,4 +4,6 @@ export class InfraConstants {
 
   static readonly LAMBDA_ALARM_ERROR_RATE_PERCENT = 5;
   static readonly LAMBDA_ALARM_P99_DURATION_MS = 10_000;
+
+  static readonly OBSERVABILITY_ENVIRONMENT = 'prd';
 }

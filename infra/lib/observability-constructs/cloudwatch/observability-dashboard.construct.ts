@@ -1,9 +1,7 @@
 import * as cdk from 'aws-cdk-lib';
 import * as cloudwatch from 'aws-cdk-lib/aws-cloudwatch';
 import { Construct } from 'constructs';
-import type * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 import type { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
-import type * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export interface ObservableLambda {
   fn: NodejsFunction;
@@ -13,8 +11,6 @@ export interface ObservableLambda {
 interface ObservabilityDashboardProps {
   dashboardName: string;
   lambdaFunctions: ObservableLambda[];
-  processingQueues: sqs.Queue[];
-  tables: dynamodb.Table[];
   businessMetricNamespace: string;
   businessMetricNames?: string[];
 }
@@ -43,26 +39,6 @@ export class ObservabilityDashboardConstruct extends Construct {
       ),
     );
 
-    const queueWidth = Math.max(6, Math.floor(24 / Math.max(props.processingQueues.length, 1)));
-    dashboard.addWidgets(
-      ...props.processingQueues.map(
-        (queue) =>
-          new cloudwatch.GraphWidget({
-            title: `Cola: ${queue.queueName}`,
-            width: queueWidth,
-            left: [
-              queue.metricApproximateNumberOfMessagesVisible({ period: cdk.Duration.minutes(1) }),
-            ],
-            right: [
-              queue.metricApproximateAgeOfOldestMessage({
-                statistic: 'Maximum',
-                period: cdk.Duration.minutes(1),
-              }),
-            ],
-          }),
-      ),
-    );
-
     if (props.businessMetricNames && props.businessMetricNames.length > 0) {
       dashboard.addWidgets(
         new cloudwatch.GraphWidget({
@@ -80,20 +56,5 @@ export class ObservabilityDashboardConstruct extends Construct {
         }),
       );
     }
-
-    const tableWidth = Math.max(6, Math.floor(24 / Math.max(props.tables.length, 1)));
-    dashboard.addWidgets(
-      ...props.tables.map(
-        (table) =>
-          new cloudwatch.GraphWidget({
-            title: `DynamoDB: ${table.tableName}`,
-            width: tableWidth,
-            left: [
-              table.metricConsumedReadCapacityUnits({ period: cdk.Duration.minutes(5) }),
-              table.metricConsumedWriteCapacityUnits({ period: cdk.Duration.minutes(5) }),
-            ],
-          }),
-      ),
-    );
   }
 }

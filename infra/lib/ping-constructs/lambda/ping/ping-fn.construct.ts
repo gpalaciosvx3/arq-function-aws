@@ -23,7 +23,7 @@ export class PingFnConstruct extends Construct {
 
     this.fn = new NodejsFunction(this, 'Fn', {
       functionName: ResourceConstants.LAMBDA_PING,
-      description: 'Recibe POST /ping y responde con pong',
+      description: 'Responde pong con el mensaje recibido',
       logGroup,
       role,
       entry: path.join(
