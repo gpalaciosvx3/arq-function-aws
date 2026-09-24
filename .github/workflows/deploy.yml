@@ -18,11 +18,14 @@ jobs:
   validate:
     if: github.event_name == 'pull_request'
     uses: gpalaciosvx3/pt-ci-pipelines/.github/workflows/node-validate.yml@v1
+    with:
+      node-version: '22'
 
   deploy:
     if: github.event_name == 'push'
     uses: gpalaciosvx3/pt-ci-pipelines/.github/workflows/aws-cdk-deploy.yml@v1
     with:
+      node-version: '22'
       extra-env: |
         DEPLOY_OBSERVABILITY=${{ vars.DEPLOY_OBSERVABILITY }}
         ALARM_EMAIL=${{ vars.ALARM_EMAIL }}

@@ -15,4 +15,5 @@ jobs:
   destroy:
     uses: gpalaciosvx3/pt-ci-pipelines/.github/workflows/aws-cdk-destroy.yml@v1
     with:
+      node-version: '22'
       confirmation: ${{ inputs.confirmation }}

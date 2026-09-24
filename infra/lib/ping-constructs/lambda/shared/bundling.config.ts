@@ -15,6 +15,6 @@ export const lambdaBundling: BundlingOptions = {
   ],
   minify: false,
   sourceMap: false,
-  target: 'node20',
+  target: 'node22',
   tsconfig: path.join(__dirname, '../../../../../tsconfig.lambda.json'),
 };
