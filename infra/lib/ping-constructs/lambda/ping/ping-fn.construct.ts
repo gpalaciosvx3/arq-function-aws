@@ -31,7 +31,7 @@ export class PingFnConstruct extends Construct {
         '../../../../../src/ping/infrastructure/bootstrap/ping.handler.ts',
       ),
       handler: 'handler',
-      runtime: lambda.Runtime.NODEJS_20_X,
+      runtime: lambda.Runtime.NODEJS_22_X,
       timeout: cdk.Duration.seconds(InfraConstants.LAMBDA_TIMEOUT_DEFAULT_SECONDS),
       memorySize: InfraConstants.LAMBDA_MEMORY_DEFAULT_MB,
       tracing: lambda.Tracing.ACTIVE,

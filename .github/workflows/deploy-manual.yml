@@ -20,6 +20,7 @@ jobs:
   deploy:
     uses: gpalaciosvx3/pt-ci-pipelines/.github/workflows/aws-cdk-deploy.yml@v1
     with:
+      node-version: '22'
       ref: ${{ inputs.ref }}
       extra-env: |
         DEPLOY_OBSERVABILITY=${{ vars.DEPLOY_OBSERVABILITY }}

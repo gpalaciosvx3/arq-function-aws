@@ -21,7 +21,7 @@ Arquetipo de **función AWS Lambda** con NestJS, Clean Architecture y pruebas BD
 | Ficha | |
 |---|---|
 | Destino | AWS Lambda |
-| Runtime | Node.js 20 · TypeScript 5.5 strict |
+| Runtime | Node.js 22 · TypeScript 5.5 strict |
 | Framework | NestJS 10 (context-based, sin servidor HTTP) |
 | Plataforma | `@gpkit/core` · `@gpkit/aws-lambda` · `@gpkit/arch-rules` |
 | Artefacto | Stack CDK: la función, su rol IAM y su log group |
@@ -99,7 +99,7 @@ arq-function-aws/
 
 | Capa | Tecnología |
 |---|---|
-| Runtime | Node.js 20, TypeScript 5.5 strict |
+| Runtime | Node.js 22, TypeScript 5.5 strict |
 | Framework | NestJS 10 |
 | Middleware Lambda | Middy (vía `@gpkit/aws-lambda`) |
 | Observabilidad | AWS Lambda Powertools v2 (vía `@gpkit/aws-lambda`) |
